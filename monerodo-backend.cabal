@@ -20,9 +20,11 @@ Library
                         Pages.NotFound
                         Templates.Master
   Build-Depends:        base >= 4.8 && < 5
+                      , aeson
                       , data-default
                       , directory
                       , exceptions
+                      , file-embed
                       , http-types
                       , lucid
                       , markup
@@ -38,9 +40,9 @@ Library
                       , wai
                       , wai-extra
                       , wai-middleware-content-type
-                      , wai-middleware-static
                       , wai-transformers
                       , webpage
+                      , websockets
 
 Executable monerodo-backend
   Default-Language:     Haskell2010
@@ -49,7 +51,6 @@ Executable monerodo-backend
   Main-Is:              Main.hs
   Build-Depends:        base >= 4.8 && < 5
                       , monerodo-backend
-                      , aeson
                       , data-default
                       , directory
                       , http-types
@@ -59,7 +60,6 @@ Executable monerodo-backend
                       , text
                       , urlpath
                       , wai-extra
-                      , wai-middleware-static
                       , wai-transformers
                       , warp
                       , yaml

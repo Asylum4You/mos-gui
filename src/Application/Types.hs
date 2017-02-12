@@ -20,8 +20,6 @@ import Control.Monad.Logger
 -- The environment accessible from our application
 data Env = Env
   { envAuthority :: UrlAuthority
-  , envCwd       :: FilePath
-  , envStatic    :: FilePath
   } deriving (Show, Eq)
 
 

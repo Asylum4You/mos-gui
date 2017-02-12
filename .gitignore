@@ -19,3 +19,4 @@ cabal.sandbox.config
 Dockerfile
 target/
 TAGS
+bower_components/
