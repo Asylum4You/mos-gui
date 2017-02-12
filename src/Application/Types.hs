@@ -39,6 +39,22 @@ type MonadApp m =
 
 -- * Links
 
+data AssetLinks
+  = JQuery
+  | SemanticJs
+  | SemanticCss
+
+instance ToPath AssetLinks Abs File where
+  toPath JQuery      = parseAbsFile "/static/jquery"
+  toPath SemanticJs  = parseAbsFile "/static/semantic/semantic"
+  toPath SemanticCss = parseAbsFile "/static/semantic/semantic"
+
+instance ToLocation AssetLinks Abs File where
+  toLocation JQuery      = (addFileExt "min.js" . fromPath) <$> toPath JQuery
+  toLocation SemanticJs  = (addFileExt "js"     . fromPath) <$> toPath SemanticJs
+  toLocation SemanticCss = (addFileExt "css"    . fromPath) <$> toPath SemanticCss
+
+
 data AppLinks
   = AppHome
 

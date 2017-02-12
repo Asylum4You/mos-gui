@@ -49,7 +49,7 @@ instance Monoid AppOpts where
       (getLast $ Last h <> Last h')
 
 instance Default AppOpts where
-  def = AppOpts (Just 3000) (Just "http://localhost")
+  def = AppOpts (Just 3000) (Just "localhost")
 
 appOpts :: Parser AppOpts
 appOpts = AppOpts <$> portOpt <*> hostOpt
@@ -58,12 +58,12 @@ appOpts = AppOpts <$> portOpt <*> hostOpt
           long "port"
        <> short 'p'
        <> metavar "PORT"
-       <> help "port to listen on"
+       <> help "port to listen on - default '3000'"
     hostOpt = optional . strOption $
           long "host"
        <> short 'h'
        <> metavar "HOST"
-       <> help "host to deploy URLs over"
+       <> help "hostname to deploy URLs over - default 'localhost'"
 
 main :: IO ()
 main = do

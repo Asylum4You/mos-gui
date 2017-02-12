@@ -31,6 +31,7 @@ Library
                       , http-types
                       , lucid
                       , markup
+                      , mmorph
                       , monad-logger
                       , mtl
                       , nested-routes >= 7.2.2

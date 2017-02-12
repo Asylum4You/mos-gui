@@ -6,6 +6,7 @@
 
 module Routes where
 
+import Routes.Assets
 import Application.Types
 import Templates.Master
 import Pages.NotFound
@@ -20,6 +21,7 @@ routes :: ( MonadApp m
 routes = do
   matchHere (action homeHandle)
   matchAny (action notFoundHandle)
+  assetRoutes
   where
     homeHandle = get $ html (Just AppHome) "home"
     notFoundHandle = get $ do

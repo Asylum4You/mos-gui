@@ -15,6 +15,7 @@ import qualified Network.Wai.Middleware.ContentType.Types as CT
 import qualified Data.Text as T
 import Network.HTTP.Types
 import Lucid
+import Path.Extended
 
 import qualified Data.HashMap.Strict as HM
 import Data.Monoid
@@ -23,6 +24,7 @@ import Data.Markup as M
 import Control.Monad.Trans
 import Control.Monad.Reader
 import Control.Monad.State (modify)
+import Control.Monad.Morph (hoist)
 
 
 -- | Render without @mainTemplate@
@@ -52,8 +54,19 @@ masterPage =
   let page :: MonadApp m => WebPage (HtmlT m ()) T.Text
       page = def
   in  page { pageTitle = "App"
-           , styles =
+           , styles = do
+               host <- envAuthority <$> lift ask
+               hoist (`runAbsoluteUrlT` host) $ do
+                 semanticCss <- lift (toLocation SemanticCss)
+                 deploy M.Css Remote semanticCss
                inlineStyles
+           , bodyScripts = do
+               host <- envAuthority <$> lift ask
+               hoist (`runAbsoluteUrlT` host) $ do
+                 jquery <- lift (toLocation JQuery)
+                 deploy M.JavaScript Remote jquery
+                 semanticJs <- lift (toLocation SemanticJs)
+                 deploy M.JavaScript Remote semanticJs
            }
   where
     inlineStyles :: MonadApp m => HtmlT m ()
