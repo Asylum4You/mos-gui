@@ -15,12 +15,15 @@ Library
   GHC-Options:          -Wall
   Exposed-Modules:      Server
                         Application
+                        Application.Assets
                         Application.Types
                         Routes
+                        Routes.Assets
                         Pages.NotFound
                         Templates.Master
   Build-Depends:        base >= 4.8 && < 5
                       , aeson
+                      , bytestring
                       , data-default
                       , directory
                       , exceptions
@@ -30,7 +33,7 @@ Library
                       , markup
                       , monad-logger
                       , mtl
-                      , nested-routes >= 7.2.1
+                      , nested-routes >= 7.2.2
                       , path-extra
                       , text
                       , transformers
