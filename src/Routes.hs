@@ -8,6 +8,7 @@ import Application.WebSocket (socket)
 import Pages.NotFound (notFoundContent)
 import Routes.Assets (assetRoutes)
 import Templates.Master (htmlLight, html)
+import Lucid (div_, id_)
 
 import Network.HTTP.Types (status404)
 import Network.Wai.Trans (MiddlewareT)
@@ -21,7 +22,7 @@ routes = do
   matchAny (action notFoundHandle)
   assetRoutes
   where
-    homeHandle = get $ html (Just AppHome) ""
+    homeHandle = get $ html (Just AppHome) $ div_ [id_ "app"] ""
     notFoundHandle =
       get $ do
         htmlLight status404 notFoundContent
