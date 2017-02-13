@@ -13,16 +13,18 @@ Library
   Default-Language:     Haskell2010
   HS-Source-Dirs:       src
   GHC-Options:          -Wall
-  Exposed-Modules:      Server
-                        Application
+  Exposed-Modules:      Application
                         Application.Assets
                         Application.Types
+                        Application.WebSocket
+                        Data.WebSocketRPC
                         Routes
                         Routes.Assets
                         Pages.NotFound
                         Templates.Master
   Build-Depends:        base >= 4.8 && < 5
                       , aeson
+                      , async
                       , bytestring
                       , data-default
                       , directory

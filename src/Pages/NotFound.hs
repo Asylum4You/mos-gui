@@ -1,36 +1,37 @@
-{-# LANGUAGE
-    OverloadedStrings
-  , ScopedTypeVariables
-  , FlexibleContexts
-  #-}
+{-# LANGUAGE OverloadedStrings, ScopedTypeVariables,
+  FlexibleContexts #-}
 
 module Pages.NotFound where
 
 import Application.Types
 
-import Data.Url
-import Web.Page.Lucid
 import qualified Data.Text as T
-import Lucid
-import Lucid.Base
-import Path.Extended
+import Data.Url (AbsoluteUrlT, locUrl)
+import Lucid (HtmlT, meta_, content_, div_, a_, h1_, p_, href_)
+import Lucid.Base (makeAttribute)
+import Path.Extended (toLocation)
+import Web.Page.Lucid (WebPage, metaVars, template)
 
-import Data.Monoid
-import Data.Default
-import Control.Monad.Trans
+import Control.Monad.Trans (lift)
+import Data.Default (def)
+import Data.Monoid ((<>))
 
-
-notFoundContent :: ( MonadApp m
-                   ) => HtmlT (AbsoluteUrlT m) ()
+notFoundContent
+  :: (MonadApp m)
+  => HtmlT (AbsoluteUrlT m) ()
 notFoundContent = do
   home <- T.pack <$> lift (locUrl =<< toLocation AppHome)
-
-  let page :: Monad m => WebPage (HtmlT m ()) T.Text
-      page = def { metaVars = meta_ [ makeAttribute "http-equiv" "refresh"
-                                    , content_ $ "3;url=" <> home
-                                    ]
-                 }
-
+  let page
+        :: Monad m
+        => WebPage (HtmlT m ()) T.Text
+      page =
+        def
+        { metaVars =
+            meta_
+              [ makeAttribute "http-equiv" "refresh"
+              , content_ $ "3;url=" <> home
+              ]
+        }
   template page $
     div_ [] $ do
       h1_ [] "Not Found!"

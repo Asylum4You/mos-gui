@@ -1,30 +1,28 @@
-{-# LANGUAGE
-    OverloadedStrings
-  , ScopedTypeVariables
-  , FlexibleContexts
-  #-}
+{-# LANGUAGE OverloadedStrings, ScopedTypeVariables,
+  FlexibleContexts #-}
 
 module Routes where
 
-import Routes.Assets     (assetRoutes)
-import Application.Types (MonadApp, AppLinks (AppHome))
-import Templates.Master  (htmlLight, html)
-import Pages.NotFound    (notFoundContent)
+import Application.Types (AppM, AppLinks(AppHome))
+import Application.WebSocket (socket)
+import Pages.NotFound (notFoundContent)
+import Routes.Assets (assetRoutes)
+import Templates.Master (htmlLight, html)
 
-import Web.Routes.Nested  (matchHere, matchAny, action, get, text, RouterT)
-import Network.Wai.Trans  (MiddlewareT)
 import Network.HTTP.Types (status404)
+import Network.Wai.Trans (MiddlewareT)
+import Web.Routes.Nested
+       (match, matchHere, matchAny, l_, o_, (</>), action, get, text, RouterT)
 
-
-routes :: ( MonadApp m
-          ) => RouterT (MiddlewareT m) sec m ()
+routes :: RouterT (MiddlewareT AppM) sec AppM ()
 routes = do
   matchHere (action homeHandle)
+  match (l_ "socket" </> o_) socket
   matchAny (action notFoundHandle)
   assetRoutes
   where
-    homeHandle = get $ html (Just AppHome) "home"
-    notFoundHandle = get $ do
-      htmlLight status404 notFoundContent
-      text "404 :("
-
+    homeHandle = get $ html (Just AppHome) ""
+    notFoundHandle =
+      get $ do
+        htmlLight status404 notFoundContent
+        text "404 :("
