@@ -2,7 +2,7 @@
 
 module Application.Assets where
 
-import Data.FileEmbed
+import Data.FileEmbed (embedFile, embedDir)
 import qualified Data.ByteString as BS
 
 
@@ -17,3 +17,6 @@ semanticIcons = $(embedDir "bower_components/semantic/dist/themes/default/assets
 
 jquery :: BS.ByteString
 jquery = $(embedFile "bower_components/jquery/dist/jquery.min.js")
+
+app :: BS.ByteString
+app = $(embedFile "monerodo-frontend/dist/Main.min.js")

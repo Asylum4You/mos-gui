@@ -6,14 +6,14 @@
 
 module Routes where
 
-import Routes.Assets
-import Application.Types
-import Templates.Master
-import Pages.NotFound
+import Routes.Assets     (assetRoutes)
+import Application.Types (MonadApp, AppLinks (AppHome))
+import Templates.Master  (htmlLight, html)
+import Pages.NotFound    (notFoundContent)
 
-import Web.Routes.Nested
-import Network.Wai.Trans
-import Network.HTTP.Types
+import Web.Routes.Nested  (matchHere, matchAny, action, get, text, RouterT)
+import Network.Wai.Trans  (MiddlewareT)
+import Network.HTTP.Types (status404)
 
 
 routes :: ( MonadApp m

@@ -6,23 +6,23 @@
 
 module Templates.Master where
 
-import Application.Types
+import Application.Types  (MonadApp, envAuthority, AppLinks, AssetLinks (..))
 
-import Data.Url
-import Web.Page.Lucid
-import Web.Routes.Nested
+import Data.Url           (AbsoluteUrlT (runAbsoluteUrlT))
+import Web.Page.Lucid     (WebPage (..), template)
+import Web.Routes.Nested  (FileExtListenerT, bytestring, mapStatus, mapHeaders)
 import qualified Network.Wai.Middleware.ContentType.Types as CT
 import qualified Data.Text as T
-import Network.HTTP.Types
-import Lucid
-import Path.Extended
+import Network.HTTP.Types (Status, status200)
+import Lucid              (HtmlT, renderBST)
+import Path.Extended      (toLocation)
 
 import qualified Data.HashMap.Strict as HM
 import Data.Monoid
-import Data.Default
-import Data.Markup as M
-import Control.Monad.Trans
-import Control.Monad.Reader
+import Data.Default (def)
+import           Data.Markup (deploy, Remote (Remote), Inline (Inline))
+import qualified Data.Markup as M
+import Control.Monad.Reader (lift, ask)
 import Control.Monad.State (modify)
 import Control.Monad.Morph (hoist)
 
@@ -53,7 +53,7 @@ masterPage :: MonadApp m => WebPage (HtmlT m ()) T.Text
 masterPage =
   let page :: MonadApp m => WebPage (HtmlT m ()) T.Text
       page = def
-  in  page { pageTitle = "App"
+  in  page { pageTitle = "Monerodo Console"
            , styles = do
                host <- envAuthority <$> lift ask
                hoist (`runAbsoluteUrlT` host) $ do

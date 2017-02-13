@@ -1,0 +1,3 @@
+[submodule "monerodo-frontend"]
+	path = monerodo-frontend
+	url = ../monerodo-frontend/

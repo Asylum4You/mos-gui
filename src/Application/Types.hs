@@ -7,9 +7,9 @@
 
 module Application.Types where
 
-import Data.Url
-import Data.Typeable
-import Path.Extended
+import Data.Url (UrlAuthority)
+import Path.Extended ( ToPath (toPath), ToLocation (toLocation), parseAbsFile, Abs, File
+                     , addFileExt, fromPath)
 import Control.Monad.Catch
 import Control.Monad.Reader
 import Control.Monad.Logger
@@ -33,7 +33,6 @@ type MonadApp m =
   , MonadIO m
   , MonadThrow m
   , MonadCatch m
-  , Typeable m
   )
 
 

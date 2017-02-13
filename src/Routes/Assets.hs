@@ -5,10 +5,10 @@
 
 module Routes.Assets where
 
-import Application.Types
-import Application.Assets
-import Web.Routes.Nested
-import Network.Wai.Trans
+import Application.Types (MonadApp)
+import Application.Assets (app, jquery, semanticJs, semanticCss, semanticIcons)
+import Web.Routes.Nested (RouterT, matchGroup, match, bytestring, action, get, l_, o_, (</>), FileExt (..))
+import Network.Wai.Trans (MiddlewareT)
 import qualified Data.Text as T
 import qualified Data.ByteString.Lazy as LBS
 import Control.Monad (forM_)
@@ -16,6 +16,7 @@ import Control.Monad (forM_)
 
 assetRoutes :: MonadApp m => RouterT (MiddlewareT m) sec m ()
 assetRoutes = matchGroup (l_ "static" </> o_) $ do
+  matchOn JavaScript "Main.min" $ LBS.fromStrict app
   matchOn JavaScript "jquery.min" $ LBS.fromStrict jquery
   matchGroup (l_ "semantic" </> o_) $ do
     match (l_ "semantic" </> o_) $ action $ get $ do

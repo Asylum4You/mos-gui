@@ -6,14 +6,12 @@
 
 module Application where
 
-import Application.Types
-import Routes
-
-import Web.Routes.Nested
-import Network.Wai.Trans
+import Application.Types (MonadApp)
+import Routes            (routes)
+import Web.Routes.Nested (route, extractAuth)
+import Network.Wai.Trans (MiddlewareT, Request)
 
 import Control.Monad.Catch
-
 import GHC.Generics
 
 
@@ -22,7 +20,6 @@ data AuthRole = NeedsLogin
 
 data AuthError = NeedsAuth
   deriving (Generic, Show)
-
 instance Exception AuthError
 
 
