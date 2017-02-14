@@ -57,7 +57,7 @@ masterPage =
             hoist (`runAbsoluteUrlT` host) $ do
               semanticCss <- lift (toLocation SemanticCss)
               deploy M.Css Remote semanticCss
-            inlineStyles
+            deploy M.Css Inline ("body {background: #ddd;}" :: T.Text)
      , bodyScripts =
          do host <- envAuthority <$> lift ask
             hoist (`runAbsoluteUrlT` host) $ do
@@ -68,11 +68,6 @@ masterPage =
               main <- lift (toLocation Main)
               deploy M.JavaScript Remote main
      }
-  where
-    inlineStyles
-      :: MonadApp m
-      => HtmlT m ()
-    inlineStyles = deploy M.Css Inline ("body {background: gray;}" :: T.Text)
 
 masterTemplate
   :: (MonadApp m)
