@@ -3,21 +3,33 @@
 
 module Application.Types where
 
+import Data.WebSocketRPC (RPCIdent)
 import Control.Monad.Catch
 import Control.Monad.Logger
 import Control.Monad.Reader
 import Data.Url (UrlAuthority)
+import qualified Data.Map as Map
 import Network.WebSockets (DataMessage)
 import Path.Extended
        (ToPath(toPath), ToLocation(toLocation), parseAbsFile, Abs, File,
         addFileExt, fromPath)
+import Control.Concurrent.Async (Async)
+import Control.Concurrent.STM.TChan (TChan)
+import Control.Concurrent.STM.TVar (TVar, newTVarIO)
 import GHC.Generics (Generic)
 
 -- * Infrastructure of the App
 -- The environment accessible from our application
 data Env = Env
   { envAuthority :: UrlAuthority
-  } deriving (Show, Eq)
+  , envWSConts   :: TVar (Map.Map RPCIdent (TChan (), Async ()))
+                                           -- FIXME use and return something other than ()
+  }
+
+initEnv :: UrlAuthority -> IO Env
+initEnv url = do
+  conts <- newTVarIO Map.empty
+  pure Env { envAuthority = url, envWSConts = conts }
 
 type AppM = LoggingT (ReaderT Env IO)
 

@@ -19,4 +19,4 @@ jquery :: BS.ByteString
 jquery = $(embedFile "bower_components/jquery/dist/jquery.min.js")
 
 app :: BS.ByteString
-app = $(embedFile "monerodo-frontend/dist/Main.min.js")
+app = $(embedFile "monerodo-frontend/dist/Main.browserified.js")

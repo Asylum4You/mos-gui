@@ -93,7 +93,7 @@ appOptsToEnv (AppOpts (Just p) (Just h)) = do
             , urlHost    = h
             , urlPort    = p <$ guard (p /= 80)
             }
-  pure $ Env a
+  initEnv a
 appOptsToEnv _ = error "impossible state"
 
 

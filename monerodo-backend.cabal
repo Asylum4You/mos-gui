@@ -26,6 +26,7 @@ Library
                       , aeson
                       , async
                       , bytestring
+                      , containers
                       , data-default
                       , directory
                       , exceptions
@@ -38,6 +39,7 @@ Library
                       , mtl
                       , nested-routes >= 7.2.2
                       , path-extra
+                      , stm
                       , text
                       , transformers
                       , unordered-containers

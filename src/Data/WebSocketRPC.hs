@@ -8,7 +8,7 @@ module Data.WebSocketRPC where
 
 import qualified Data.Text as T
 import Data.Aeson (FromJSON (..), ToJSON (..), (.:), Value (Object), object, (.=))
-import Data.Aeson.Types (typeMismatch)
+import Data.Aeson.Types (typeMismatch, Parser)
 import Control.Applicative ((<|>))
 
 
@@ -121,7 +121,21 @@ instance ToJSON a => ToJSON (Complete a) where
 data IncomingWSRPC
   = WSSub (Subscribe ()) -- FIXME extend with actual method DSL
   | WSSup (Supply ())
+  | WSPong
   deriving (Show, Eq)
 
 instance FromJSON IncomingWSRPC where
-  parseJSON x = (WSSub <$> parseJSON x) <|> (WSSup <$> parseJSON x)
+  parseJSON x = (WSSub <$> parseJSON x)
+            <|> (WSSup <$> parseJSON x)
+            <|> (WSPong <$ (parseJSON x :: Parser ()))
+
+data OutgoingWSRPC
+  = WSRep (Reply ())
+  | WSCom (Complete ())
+  | WSPing
+  deriving (Show, Eq)
+
+instance ToJSON OutgoingWSRPC where
+  toJSON (WSRep r) = toJSON r
+  toJSON (WSCom r) = toJSON r
+  toJSON WSPing = toJSON ()
