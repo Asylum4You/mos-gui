@@ -69,8 +69,7 @@ socket app req resp = do
                          { _rep_ident = _sub_ident
                          , _rep_params = ()
                          }
-                  else do atomically $ modifyTVar contsVar $ Map.delete _sub_ident
-                          sendTextData conn $ A.encode Complete
+                  else do sendTextData conn $ A.encode Complete
                             { _com_ident = _sub_ident
                             , _com_params = ()
                             }
@@ -78,6 +77,7 @@ socket app req resp = do
                           case Map.lookup _sub_ident conts of
                             Nothing -> pure ()
                             Just (_,thread) -> cancel thread
+                          atomically $ modifyTVar contsVar $ Map.delete _sub_ident
                 threadDelay 1000000
 
               liftIO $ atomically $ modifyTVar contsVar $ Map.insert _sub_ident
