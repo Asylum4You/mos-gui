@@ -17,7 +17,6 @@ Library
                         Application.Assets
                         Application.Types
                         Application.WebSocket
-                        Data.WebSocketRPC
                         Routes
                         Routes.Assets
                         Pages.NotFound
@@ -51,6 +50,7 @@ Library
                       , wai-transformers
                       , webpage
                       , websockets
+                      , websockets-rpc
 
 Executable monerodo-backend
   Default-Language:     Haskell2010

@@ -3,7 +3,6 @@
 
 module Application.Types where
 
-import Data.WebSocketRPC (RPCIdent)
 import Control.Monad.Catch
 import Control.Monad.Logger
 import Control.Monad.Reader
@@ -22,14 +21,11 @@ import GHC.Generics (Generic)
 -- The environment accessible from our application
 data Env = Env
   { envAuthority :: UrlAuthority
-  , envWSConts   :: TVar (Map.Map RPCIdent (TChan (), Async ()))
-                                           -- FIXME use and return something other than ()
   }
 
 initEnv :: UrlAuthority -> IO Env
 initEnv url = do
-  conts <- newTVarIO Map.empty
-  pure Env { envAuthority = url, envWSConts = conts }
+  pure Env { envAuthority = url }
 
 type AppM = LoggingT (ReaderT Env IO)
 
