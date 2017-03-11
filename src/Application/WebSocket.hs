@@ -41,7 +41,6 @@ socket app req resp = do
                                 else do
                                   runAppM env $ complete ()
                                   killThread =<< myThreadId
-                                  -- cancel thread
                               threadDelay 1000000
                         void $ liftIO $ async $ forever go
                       Right () ->
