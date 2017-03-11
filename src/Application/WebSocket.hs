@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns, RecursiveDo #-}
 
 module Application.WebSocket where
 
@@ -17,7 +17,7 @@ import Control.Monad.Reader (ask)
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Catch (throwM)
 import Control.Concurrent (threadDelay, myThreadId, killThread)
-import Control.Concurrent.Async (async, cancel)
+import Control.Concurrent.Async (async, cancel, wait)
 import Control.Concurrent.STM (atomically)
 import Control.Concurrent.STM.TVar (modifyTVar, readTVarIO, newTVarIO)
 import Control.Concurrent.STM.TChan (newTChanIO, writeTChan, tryReadTChan)
@@ -29,19 +29,21 @@ socket app req resp = do
   let middleware = websocketsOrT (runAppM env) defaultConnectionOptions $ \pendingConn -> do
         let wsServer =
               let wsServer' :: RPCServer () () () () AppM
-                  wsServer' = \RPCServerParams{reply,complete} eSubSup ->
+                  wsServer' RPCServerParams{reply,complete} eSubSup =
                     case eSubSup of
                       Left () -> do
                         countRef <- liftIO $ newTVarIO 0
-                        void $ liftIO $ async $ forever $ do
-                          count <- readTVarIO countRef
-                          atomically $ modifyTVar countRef (+1)
-                          if count < 5
-                            then runAppM env $ reply ()
-                            else do
-                              runAppM env $ complete ()
-                              killThread =<< myThreadId
-                          threadDelay 1000000
+                        let go = do
+                              count <- readTVarIO countRef
+                              atomically $ modifyTVar countRef (+1)
+                              if count < 5
+                                then runAppM env $ reply ()
+                                else do
+                                  runAppM env $ complete ()
+                                  killThread =<< myThreadId
+                                  -- cancel thread
+                              threadDelay 1000000
+                        void $ liftIO $ async $ forever go
                       Right () ->
                         liftIO $ print ()
               in  rpcServer wsServer'

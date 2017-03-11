@@ -130,9 +130,9 @@ main = do
             wsClient' =
               { subscription: ([] :: Array Unit)
               , onReply: \{supply, cancel} (x :: Array Unit) ->
-                  pure unit
+                  log "reply"
               , onComplete: \(x :: Array Unit) ->
-                  pure unit
+                  log "complete"
               }
         dispatch wsClient'
 
