@@ -4,7 +4,7 @@
 
 ## Installation
 
-Copy the binary distribution for your architecture into `/usr/local/bin/`, or
+Copy the binary distribution (i.e. `bin/x86_64/monerodo-backend`) for your architecture into `/usr/local/bin/`, or
 include it in the `$PATH` directory list, then run
 
 ```bash
