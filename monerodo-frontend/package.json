@@ -1,0 +1,28 @@
+{
+  "name": "monerodo-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/Main.js",
+  "dependencies": {
+    "browserify": "^13.3.0",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "uglifyjs": "^2.4.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gingeropolous/monerodo-frontend.git"
+  },
+  "author": "Athan Clark <athan.clark@gmail.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/Gingeropolous/monerodo-frontend/issues"
+  },
+  "homepage": "https://github.com/Gingeropolous/monerodo-frontend#readme"
+}

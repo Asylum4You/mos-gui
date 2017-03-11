@@ -1,0 +1,23 @@
+{
+  "name": "monerodo-frontend",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-prelude": "^2.3.0",
+    "purescript-console": "^2.0.0",
+    "purescript-pux": "^7.0.0",
+    "purescript-websocket-simple": "^1.0.1",
+    "purescript-var": "^1.0.0",
+    "purescript-signal": "^8.0.1",
+    "purescript-argonaut": "^2.0.0",
+    "purescript-maps": "^2.1.2",
+    "purescript-websockets-rpc": "^1.0.0"
+  },
+  "devDependencies": {
+    "purescript-psci-support": "^2.0.0"
+  }
+}
