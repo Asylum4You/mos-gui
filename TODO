@@ -1,0 +1,4 @@
+- electrum wrapper
+- configurable systemd / upstart paths
+  - logparsing for monerod & simplewallet -- progress
+- websocket RPC
